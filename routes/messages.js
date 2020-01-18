@@ -6,17 +6,17 @@ Router.route("/latest").get(AUTH, (req, res) => {
 
   Message.aggregate([
     { $match: { sender: req.user._id } },
-    { $group: { _id: "$receiver", msgId: { $first: "$_id" } } }
+    { $group: { _id: "$receiver", msgId: { $last: "$_id" } } }
   ]).exec((err, firstIds) => {
     Message.aggregate([
       { $match: { receiver: req.user._id } },
-      { $group: { _id: "$sender", msgId: { $first: "$_id" } } }
+      { $group: { _id: "$sender", msgId: { $last: "$_id" } } }
     ]).exec((err, secondIds) => {
         // Message.find()
         Message.find({$or : [...firstIds,...secondIds].map(one =>{
             return {_id : one.msgId}
         })}).sort({_id : -1}).populate(["sender" , "receiver"]).exec((err,wow)=>{
-                    var unique = {} 
+                    var unique = {}  
                     var latest = []
                     wow.forEach(one => {
         
