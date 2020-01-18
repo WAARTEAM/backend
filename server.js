@@ -26,7 +26,7 @@ mongoose.connection.once("open", () => console.log("workin properly"))
  
 app.use(bodyParser.json())
 app.use(cors()) 
-app.use(passport.initialize());
+app.use(passport.initialize()); 
 app.use(passport.session());
 passport.use(new JwtStrategy({
 
