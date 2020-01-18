@@ -23,7 +23,7 @@ const express               = require("express"),
 
 mongoose.connect("mongodb://waar:waarwaar7@ds263368.mlab.com:63368/nodes", { useUnifiedTopology: true, useNewUrlParser: true })
 mongoose.connection.once("open", () => console.log("workin properly"))
-
+ 
 app.use(bodyParser.json())
 app.use(cors()) 
 app.use(passport.initialize());
