@@ -28,7 +28,7 @@ app.use(bodyParser.json())
 app.use(cors()) 
 app.use(passport.initialize()); 
 app.use(passport.session());
-passport.use(new JwtStrategy({
+passport.use(new JwtStrategy({ 
 
         jwtFromRequest : ExtractJWT.fromAuthHeaderWithScheme("jwt"),
         secretOrKey : config.secret}, function(jwt_payload, done) {
