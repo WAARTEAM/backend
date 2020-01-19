@@ -1,16 +1,17 @@
 const Group = require("../models/group");
 const Friendship = require("../models/friendship");
 const Message = require("../models/message");
+const ObjectId = require("mongodb").ObjectID
 
 /**
- * @function addMember adds a freinds to a group by the admin of that group
+ * @function addMember adds freinds to a group by the admin of that group
  * @param {Object} req EXEPCTED to have the id of the group in the params of the req object, the admin of the group well be added by the middleware it self
  * // and the newfreind is expected to be in the body of the req object
  * @param {Object} res EXEPCTED to have the JSON object with the success attr set to true of no problem happend
  */
 exports.addMember = (req, res) => {
   const group = req.params.id; // id of the group
-  const friend = req.user;
+  const friend = req.user._id;
   const newMember = req.body.user;
   Friendship.exists({
     $or: [
@@ -93,7 +94,10 @@ exports.addMessage = (req,res)=>{
   req.body.group  = req.params.id 
   req.body.sender = req.user._id
   Message.create(req.body, (err, created)=>{
-    res.json(created)
+    Message.findById(created._id).populate("sender").exec((err, found)=>{
+      res.json(found)
+
+    })
   })
 
 }

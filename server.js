@@ -48,7 +48,9 @@ passport.use(new JwtStrategy({
     app.use("/api/friends" , friends)
     app.use('/api/groups', groups)
     app.use('/api/messages', messages)
-    
+app.get('/api/verifytoken', passport.authenticate('jwt', {session:false}), (req,res)=>{
+       res.json({success : true})
+})
 app.get("/", (req, res) => {
     res.json({ team: "Waar", project: "Nodes", version: "1.0.0" })
 })
