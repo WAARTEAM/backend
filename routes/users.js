@@ -34,3 +34,10 @@ Router.route("/:id/acceptrequest").get(AUTH, (req, res) => {
         res.redirect(`/api/users/${user}/removerequest`);
     });
 });
+
+/**
+ * @route /api/:id/friends GET
+ * @description fetch all the friend of a specific user
+ * @access private
+ */
+Router.route("/:id/friends").get(AUTH, userController.getFriends)
