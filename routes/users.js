@@ -14,6 +14,18 @@ Router.route("/")
 Router.route("/authenticate")
     .post(userController.signIn);
 
+Router.route("/search")
+      .get((req,res)=>{
+          var regex = { $regex: req.query.keyword, $options: 'i' }
+          User.aggregate([
+          { $project: { "name" : { $concat : [ "$firstname", " ", "$lastname" ] }, "username" : "$username" }},
+          {  $match: {$or : [{"name": regex}, {"username" : regex}]}}
+        //   {$count : "length"}
+        ]).exec(function(err, results) {
+            res.json(results)
+        });
+    })
+
 Router.route("/:username")
     .get(AUTH, userController.getUser);
 
