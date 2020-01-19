@@ -94,7 +94,10 @@ exports.addMessage = (req,res)=>{
   req.body.group  = req.params.id 
   req.body.sender = req.user._id
   Message.create(req.body, (err, created)=>{
-    res.json(created)
+    Message.findById(created._id).populate("sender").exec((err, found)=>{
+      res.json(found)
+
+    })
   })
 
 }
