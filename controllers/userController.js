@@ -76,6 +76,39 @@ exports.getUser = (req, res) => {
         });
 };
 
+exports.updateInfo = (req,res)=>{
+    function updateUserData (){
+        User.findByIdAndUpdate(req.user._id , req.body, (err,updated)=>{
+            if (err) return res.json({ success: false, err });
+            res.json({success : true, updated})
+        })
+
+    }
+
+    bcrypt.compare(req.body.password, req.user.password, (err, isMatch) => {
+        if (err) return res.json({ success: false, err });
+        if (isMatch) {
+            delete req.body.password 
+            if(req.body.newpassword){
+                bcrypt.hash(req.body.newpassword, 10, (err, hash) => {
+                    if (err) res.json({ err });
+                    else {
+                        req.body.password = hash;
+                        updateUserData()
+                        
+                    }
+                });
+            }else {
+                updateUserData()
+
+            }
+            
+            
+        } else {
+            return res.json({ success: false, msg: "Wrong password" });
+        }
+    });
+}
 /**
  * @function signUp adds a user in the database, if he does not exist already
  * @param {Object} req EXPECTED to have the user info in thee bpdy of the request

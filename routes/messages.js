@@ -3,8 +3,9 @@ const Message = require("../models/message");
 const AUTH = require("passport").authenticate("jwt", { session: false });
 
 Router.route("/latest").get(AUTH, (req, res) => {
+  console.log(req.user)
   Message.aggregate([
-    { $match: { sender: req.user._id } },
+    { $match: { sender: req.user._id, receiver : {$ne : null} } },
     { $group: { _id: "$receiver", msgId: { $last: "$_id" } } }
   ]).exec((err, firstIds) => {
     Message.aggregate([
@@ -12,6 +13,7 @@ Router.route("/latest").get(AUTH, (req, res) => {
       { $group: { _id: "$sender", msgId: { $last: "$_id" } } }
     ]).exec((err, secondIds) => {
       // Message.find()
+      if([...secondIds , ...firstIds].length == 0) return []
       Message.find({
         $or: [...firstIds, ...secondIds].map(one => {
           return { _id: one.msgId };
@@ -24,19 +26,17 @@ Router.route("/latest").get(AUTH, (req, res) => {
           var latest = [];
           wow.forEach(one => {
             if (one.sender.username == req.user.username) {
-              if (one.receiver) {
               if (!unique[one.receiver.username]) {
                   unique[one.receiver.username] = true;
                   latest.push(one);
                 }
-              }
+              
             } else {
-              if (one.sender) {
                 if (!unique[one.sender.username]) {
                   unique[one.sender.username] = true;
                   latest.push(one);
                 }
-              }
+              
             }
           });
           res.json(latest);
