@@ -1,5 +1,6 @@
 const User = require("../models/user.js"),
-    Request = require("../models/request.js");
+    Request = require("../models/request.js"),
+    Friendship = require("../models/friendship")
 
 /**
  * @function getRequests return all the requests that is send to a spcific receiver (user)
