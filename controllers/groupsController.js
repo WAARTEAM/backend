@@ -1,6 +1,6 @@
 const Group = require("../models/group");
 const Friendship = require("../models/friendship");
-const Messages = require("../models/message");
+const Message = require("../models/message");
 
 /**
  * @function addMember adds a freinds to a group by the admin of that group
@@ -80,11 +80,20 @@ exports.leaveGroup = (req, res) => {
 };
 
 exports.getGroup = (req, res) => {
-  Group.findById(req.params._id).then(group => {
-    Messages.findOne({ group: group._id })
+  Group.findById(req.params.id).then(group => {
+    Message.find({ group: group._id })
       .populate(["group", "sender"])
       .then(messages => {
         res.json(messages);
       });
   });
 };
+
+exports.addMessage = (req,res)=>{
+  req.body.group  = req.params.id 
+  req.body.sender = req.user._id
+  Message.create(req.body, (err, created)=>{
+    res.json(created)
+  })
+
+}

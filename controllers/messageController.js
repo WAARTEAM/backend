@@ -1,3 +1,5 @@
+const Message = require("../models/message")
+
 exports.getAllMessages = (req, res) => {
     Message.find({
             $or: [

@@ -23,12 +23,12 @@ const express               = require("express"),
 
 mongoose.connect("mongodb://waar:waarwaar7@ds263368.mlab.com:63368/nodes", { useUnifiedTopology: true, useNewUrlParser: true })
 mongoose.connection.once("open", () => console.log("workin properly"))
-
+ 
 app.use(bodyParser.json())
-app.use(cors())
-app.use(passport.initialize());
+app.use(cors()) 
+app.use(passport.initialize()); 
 app.use(passport.session());
-passport.use(new JwtStrategy({
+passport.use(new JwtStrategy({ 
 
         jwtFromRequest : ExtractJWT.fromAuthHeaderWithScheme("jwt"),
         secretOrKey : config.secret}, function(jwt_payload, done) {
@@ -38,7 +38,7 @@ passport.use(new JwtStrategy({
             }
             if (user) {
                 return done(null, user);
-            } else {
+            } else { 
                 return done(null, false);
             }
         });

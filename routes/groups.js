@@ -28,4 +28,6 @@ Router.route("/:id/add").post(AUTH, groupControllers.addMember);
  * @access private
  */
 Router.route("/:id/leave").get(AUTH, groupControllers.leaveGroup);
-Router.route("/:id").get(AUTH, groupControllers.getGroup);
+Router.route("/:id").get(AUTH, groupControllers.getGroup)
+                    .post(AUTH, groupControllers.addMessage)
+

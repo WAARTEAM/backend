@@ -2,7 +2,9 @@ const User = require("../models/user.js"),
     bcrypt = require("bcrypt"),
     config = require("../config.js"),
     Request = require("../models/request.js"),
-    Friendship = require("../models/friendship.js");
+    Friendship = require("../models/friendship.js"),
+    jwt        = require("jsonwebtoken")
+
 
 
 const functions = {
