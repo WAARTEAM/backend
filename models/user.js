@@ -19,5 +19,6 @@ module.exports = mongoose.model("user" , mongoose.Schema({
         type : String,
         required : true
     },
+    bio : String,
     password : {type:String,required : true}
 }))
