@@ -3,7 +3,7 @@ const Message = require("../models/message");
 const AUTH = require("passport").authenticate("jwt", { session: false });
 
 Router.route("/latest").get(AUTH, (req, res) => {
-  console.log(req.user)
+  // console.log(req.user)
   Message.aggregate([
     { $match: { sender: req.user._id, receiver : {$ne : null} } },
     { $group: { _id: "$receiver", msgId: { $last: "$_id" } } }
@@ -13,7 +13,7 @@ Router.route("/latest").get(AUTH, (req, res) => {
       { $group: { _id: "$sender", msgId: { $last: "$_id" } } }
     ]).exec((err, secondIds) => {
       // Message.find()
-      if([...secondIds , ...firstIds].length == 0) return []
+      if([...secondIds , ...firstIds].length == 0) return res.json([])
       Message.find({
         $or: [...firstIds, ...secondIds].map(one => {
           return { _id: one.msgId };
