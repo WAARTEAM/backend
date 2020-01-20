@@ -18,6 +18,7 @@ const express               = require("express"),
       messages              = require("./routes/messages.js"),
       friends               = require("./routes/friends.js"),
       config                = require("./config.js"),
+      socket                = require("socket.io"),
       cors                  = require("cors"),
       groups = require('./routes/groups')
 
@@ -51,7 +52,15 @@ passport.use(new JwtStrategy({
 app.get('/api/verifytoken', passport.authenticate('jwt', {session:false}), (req,res)=>{
        res.json({success : true})
 })
+
 app.get("/", (req, res) => {
     res.json({ team: "Waar", project: "Nodes", version: "1.0.0" })
 })
-app.listen(port, () => console.log(`listening on http://localhost:${port}`));
+var io =  socket(app.listen(port, () => console.log(`listening on http://localhost:${port}`)));
+
+io.on("connection" , connect=>{
+    console.log("connection is made")
+    connect.on("message", data =>{
+        connect.emit("anything" , data)
+    })
+})

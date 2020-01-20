@@ -22,7 +22,11 @@ exports.createMessage = (req, res) => {
         },
         (err, created) => {
             if (err) res.json({ success: false, err });
-            else res.json(created);
+            else{
+                Message.findById(created._id).populate("sender").exec((err,found)=>{
+                    res.json(found);
+                })
+            } 
         }
     );
 }
