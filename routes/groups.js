@@ -12,8 +12,8 @@ const groupControllers = require("../controllers/groupsController");
  * @access private
  */
 Router.route("/")
-  .get(AUTH, groupControllers.getGroups)
-  .post(AUTH, groupControllers.createGroup);
+    .get(AUTH, groupControllers.getGroups)
+    .post(AUTH, groupControllers.createGroup);
 
 /**
  * @route /api/groups/:id/add POST
@@ -29,5 +29,5 @@ Router.route("/:id/add").post(AUTH, groupControllers.addMember);
  */
 Router.route("/:id/leave").get(AUTH, groupControllers.leaveGroup);
 Router.route("/:id").get(AUTH, groupControllers.getGroup)
-                    .post(AUTH, groupControllers.addMessage)
-
+    .post(AUTH, groupControllers.addMessage)
+Router.route("/:id/friendlist").get(AUTH, groupControllers.friendList)
