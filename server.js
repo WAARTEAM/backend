@@ -19,14 +19,17 @@ const express = require("express"),
     config = require("./config.js"),
     socket = require("socket.io"),
     cors = require("cors"),
-    groups = require('./routes/groups')
+    groups = require('./routes/groups'),
+    path = require('path');
 
 mongoose.connect("mongodb+srv://NG-NODES-ADMIN:AMSsew2Tri5IakWd@ng-nodes-cluster.dtprp.mongodb.net/nodesWeb?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.connection.once("open", () => console.log("workin properly"))
 mongoose.connection.once("error", () => console.log("Error"))
 
+const publicPath = path.join(__dirname, 'dist', 'ng-nodes-web');
 
-app.use(bodyParser.json())
+app.use(express.static(publicPath));
+app.use(bodyParser.json());
 app.use(cors())
 app.use(passport.initialize());
 app.use(passport.session());
@@ -53,11 +56,13 @@ app.use('/api/groups', groups);
 app.use('/api/messages', messages);
 app.get('/api/verifytoken', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({ success: true })
-})
+});
 
-app.get("/", (req, res) => {
-    res.json({ team: "Waar", project: "Nodes", version: "1.0.0" })
-})
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+
 var io = socket(app.listen(port, () => console.log(`listening on http://localhost:${port}`)));
 
 io.on("connection", connect => {
