@@ -21,8 +21,10 @@ const express = require("express"),
     cors = require("cors"),
     groups = require('./routes/groups')
 
-mongoose.connect("mongodb://waar:waarwaar7@ds263368.mlab.com:63368/nodes", { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect("mongodb+srv://NG-NODES-ADMIN:AMSsew2Tri5IakWd@ng-nodes-cluster.dtprp.mongodb.net/nodesWeb?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.connection.once("open", () => console.log("workin properly"))
+mongoose.connection.once("error", () => console.log("Error"))
+
 
 app.use(bodyParser.json())
 app.use(cors())
@@ -44,11 +46,11 @@ passport.use(new JwtStrategy({
         }
     });
 }));
-app.use("/api/users", users)
-app.use("/api/requests", requests)
-app.use("/api/friends", friends)
-app.use('/api/groups', groups)
-app.use('/api/messages', messages)
+app.use("/api/users", users);
+app.use("/api/requests", requests);
+app.use("/api/friends", friends);
+app.use('/api/groups', groups);
+app.use('/api/messages', messages);
 app.get('/api/verifytoken', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({ success: true })
 })
@@ -69,9 +71,7 @@ io.on("connection", connect => {
 
         connect.leave(data)
     })
-
     connect.on("message", data => {
-
         console.log(data)
         io.in(data.id).emit("message", data.message)
     })
