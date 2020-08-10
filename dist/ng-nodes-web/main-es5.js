@@ -1279,10 +1279,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ngOnInit() {
           var _this2 = this;
 
-          this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__("http://127.0.0.1:7000");
+          this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__("https://ng-nodes.herokuapp.com");
           this.innerWidth = window.innerWidth;
           this.socket.on("message", function (data) {
-            console.log(_this2.messages, "HERERERERERERERERERE");
             if (!_this2.messages) _this2.messages = [];
 
             _this2.messages.push(data);

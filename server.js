@@ -77,7 +77,6 @@ io.on("connection", connect => {
         connect.leave(data)
     })
     connect.on("message", data => {
-        console.log(data)
         io.in(data.id).emit("message", data.message)
     })
 })

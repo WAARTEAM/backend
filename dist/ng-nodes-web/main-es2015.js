@@ -615,10 +615,9 @@ let ChatpageComponent = class ChatpageComponent {
         console.log(this.innerWidth);
     }
     ngOnInit() {
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__("http://127.0.0.1:7000");
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4__("https://ng-nodes.herokuapp.com");
         this.innerWidth = window.innerWidth;
         this.socket.on("message", data => {
-            console.log(this.messages, "HERERERERERERERERERE");
             if (!this.messages)
                 this.messages = [];
             this.messages.push(data);
