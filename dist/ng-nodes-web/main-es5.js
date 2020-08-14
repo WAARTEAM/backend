@@ -2798,7 +2798,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.headers = {
           Authorization: this.token
         };
-        this.prod = "http://waar-nodes.herokuapp.com/api";
+        this.prod = "https://ng-nodes.herokuapp.com/api";
         this.dev = "http://127.0.0.1:7000/api";
       }
 
@@ -2813,28 +2813,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function get(route) {
           var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
           // console.log(this.token);
-          return this.http.get(this.dev + route + query, {
+          return this.http.get(this.prod + route + query, {
             headers: this.token ? this.headers : null
           });
         }
       }, {
         key: "post",
         value: function post(route, json) {
-          return this.http.post(this.dev + route, json, {
+          return this.http.post(this.prod + route, json, {
             headers: this.token ? this.headers : null
           });
         }
       }, {
         key: "patch",
         value: function patch(route, json) {
-          return this.http.patch(this.dev + route, json, {
+          return this.http.patch(this.prod + route, json, {
             headers: this.token ? this.headers : null
           });
         }
       }, {
         key: "delete",
         value: function _delete(route) {
-          return this.http.delete(this.dev + route, {
+          return this.http.delete(this.prod + route, {
             headers: this.token ? this.headers : null
           });
         }

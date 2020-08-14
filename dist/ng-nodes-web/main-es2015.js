@@ -1552,7 +1552,7 @@ let HttpService = class HttpService {
         this.http = http;
         this.token = localStorage.getItem("id_token");
         this.headers = { Authorization: this.token };
-        this.prod = "http://waar-nodes.herokuapp.com/api";
+        this.prod = "https://ng-nodes.herokuapp.com/api";
         this.dev = "http://127.0.0.1:7000/api";
     }
     initialsGenerator(name, size = 250) {
@@ -1560,22 +1560,22 @@ let HttpService = class HttpService {
     }
     get(route, query = "") {
         // console.log(this.token);
-        return this.http.get(this.dev + route + query, {
+        return this.http.get(this.prod + route + query, {
             headers: this.token ? this.headers : null
         });
     }
     post(route, json) {
-        return this.http.post(this.dev + route, json, {
+        return this.http.post(this.prod + route, json, {
             headers: this.token ? this.headers : null
         });
     }
     patch(route, json) {
-        return this.http.patch(this.dev + route, json, {
+        return this.http.patch(this.prod + route, json, {
             headers: this.token ? this.headers : null
         });
     }
     delete(route) {
-        return this.http.delete(this.dev + route, {
+        return this.http.delete(this.prod + route, {
             headers: this.token ? this.headers : null
         });
     }
